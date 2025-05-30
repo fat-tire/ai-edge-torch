@@ -119,6 +119,18 @@ def get_0_6b_model_config(kv_cache_max_len: int = 1024) -> cfg.ModelConfig:
   config.embedding_dim = 1024
   return config
 
+def get_8b_model_config(kv_cache_max_len: int = 1024) -> cfg.ModelConfig:
+  """Returns the model config for a Qwen 3.0 8B model."""
+  config = get_4b_model_config(kv_cache_max_len)
+  # Qwen has only one block config.
+  block_config = config.block_config(0)
+  block_config.attn_config.num_heads = 32
+  block_config.attn_config.head_dim = 128
+  block_config.ff_config.intermediate_size = 12288
+  config.num_layers = 36
+  config.embedding_dim = 4096
+  return config
+
 
 def get_fake_model_config(**kwargs) -> cfg.ModelConfig:
   config = get_4b_model_config(**kwargs)
@@ -165,6 +177,19 @@ def build_0_6b_model(
   return model_builder.build_decoder_only_model(
       checkpoint_path=checkpoint_path,
       config=get_0_6b_model_config(**kwargs),
+      tensor_names=TENSOR_NAMES,
+      model_class=Qwen3,
+      custom_loader=custom_loader,
+  )
+
+def build_8b_model(
+    checkpoint_path: str,
+    custom_loader: Callable[[str], Dict[str, torch.Tensor]] = None,
+    **kwargs
+) -> nn.Module:
+  return model_builder.build_decoder_only_model(
+      checkpoint_path=checkpoint_path,
+      config=get_8b_model_config(**kwargs),
       tensor_names=TENSOR_NAMES,
       model_class=Qwen3,
       custom_loader=custom_loader,

@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 
-"""Verifies the reauthored Qwen 3.0 0.6B, 1.7B, and 4B models."""
+"""Verifies the reauthored Qwen 3.0 0.6B, 1.7B, 4B, and 8B models."""
 
 
 from absl import app
@@ -24,7 +24,7 @@ from ai_edge_torch.generative.examples.qwen import verify_util
 _MODEL_SIZE = flags.DEFINE_enum(
     "model_size",
     "0.6b",
-    ["0.6b", "1.7b", "4b"],
+    ["0.6b", "1.7b", "4b", "8b"],
     "The size of the model to verify.",
 )
 _PROMPTS = flags.DEFINE_multi_string(
@@ -42,6 +42,7 @@ _CHECKPOINT = {
     "0.6b": "Qwen/Qwen3-0.6B",
     "1.7b": "Qwen/Qwen3-1.7B",
     "4b": "Qwen/Qwen3-4B",
+    "8b": "Qwen/Qwen3-8B",
 }
 
 

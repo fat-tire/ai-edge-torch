@@ -26,7 +26,7 @@ flags = converter.define_conversion_flags('qwen')
 _MODEL_SIZE = flags.DEFINE_enum(
     'model_size',
     '1.7b',
-    ['0.6b', '1.7b', '4b'],
+    ['0.6b', '1.7b', '4b', '8b'],
     'The size of the model to convert.',
 )
 
@@ -34,6 +34,7 @@ _BUILDER = {
     '0.6b': qwen3.build_0_6b_model,
     '1.7b': qwen3.build_1_7b_model,
     '4b': qwen3.build_4b_model,
+    '8b': qwen3.build_8b_model,
 }
 
 
